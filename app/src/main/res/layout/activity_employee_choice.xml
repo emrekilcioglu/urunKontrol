@@ -7,18 +7,33 @@
     tools:context=".employee.EmployeeChoiceActivity">
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="151dp"
-        tools:layout_editor_absoluteY="148dp" />
+        android:id="@+id/buttonProductOut"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Ürün Çıkış"
+        app:icon="@drawable/product_out"
+        app:iconGravity="top"
+        app:layout_constraintBottom_toTopOf="@id/buttonProductArrive"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent=".4" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/buttonProductArrive"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="Button"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="398dp" />
+        app:icon="@drawable/product_arrive_icon"
+        app:iconGravity="top"
+
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonProductOut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent=".4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
