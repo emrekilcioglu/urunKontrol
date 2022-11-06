@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_home_page"
+        android:title="Ana Sayfa" />
+    <item
+        android:id="@+id/action_list_product"
+        android:title="Ürünleri Listele" />
+    <item
+        android:id="@+id/action_list_brand"
+        android:title="Markaları Listele" />
+    <item
+        android:id="@+id/action_list_category"
+        android:title="Kategorileri Listele" />
+    <item
+        android:id="@+id/action_list_user"
+        android:title="Kullanıcıları Listele" />
+    <item
+        android:id="@+id/action_list_stock"
+        android:title="Stok Görüntüle" />
+</menu>

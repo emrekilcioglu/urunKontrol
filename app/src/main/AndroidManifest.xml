@@ -13,7 +13,36 @@
         android:theme="@style/Theme.UrunKontrol"
         tools:targetApi="31">
         <activity
+            android:name=".manager.AddUserActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".manager.OneAddActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
+        <activity
+            android:name=".employee.ProductPoolActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".employee.EmployeeMainPageActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".employee.EmployeeChoiceActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -27,21 +56,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ProductArriveActivity"
+            android:name=".manager.ManagerMainPageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".EmployeeChoiceActivity"
+            android:name=".manager.ManagerChoiceActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".EmployeeActivity"
+            android:name=".manager.ProductAddActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

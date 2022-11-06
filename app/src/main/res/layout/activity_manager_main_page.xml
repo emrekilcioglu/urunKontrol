@@ -2,46 +2,44 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerLayoutEmp"
+    android:id="@+id/drawerLayoutM"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".employee.EmployeeMainPageActivity"
-    tools:openDrawer="start"
-
-    >
+    tools:context=".manager.ManagerMainPageActivity"
+    tools:openDrawer="start">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarEmp"
+            android:id="@+id/toolbarM"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerViewEmp"
+            android:id="@+id/fragmentContainerViewM"
             android:name="com.example.urunkontrol.ReadQrFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarEmp"
+            app:layout_constraintTop_toBottomOf="@id/toolbarM"
             tools:layout="@layout/fragment_read_qr" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navViewEmp"
+        android:id="@+id/navigationViewM"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/drawer_employee_menu" />
+        app:menu="@menu/drawer_manager_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

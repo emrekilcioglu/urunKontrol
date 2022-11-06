@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".employee.EmployeeChoiceActivity">
+    tools:context=".manager.ManagerChoiceActivity">
 
     <Button
         android:id="@+id/buttonProductOut"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="Ürün Çıkış"
-        app:icon="@drawable/product_out"
+        android:text="Ürün Düzenle"
+        app:icon="@drawable/edit_icon"
         app:iconGravity="top"
         app:layout_constraintBottom_toTopOf="@id/buttonProductArrive"
         app:layout_constraintDimensionRatio="1:1"
@@ -26,8 +26,8 @@
         android:id="@+id/buttonProductArrive"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="Ürün Girişi"
-        app:icon="@drawable/product_arrive_icon"
+        android:text="Ürün Sil"
+        app:icon="@drawable/delete_icon"
         app:iconGravity="top"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,4 +36,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/buttonProductOut"
         app:layout_constraintWidth_percent=".4" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

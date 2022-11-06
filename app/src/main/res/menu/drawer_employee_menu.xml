@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Ana Sayfa" />
-    <item android:title="İşlem Geçmişi" />
+    <item
+        android:id="@+id/action_home"
+        android:title="Ana Sayfa" />
+    <item
+        android:id="@+id/action_history"
+        android:title="İşlem Geçmişi" />
 </menu>
