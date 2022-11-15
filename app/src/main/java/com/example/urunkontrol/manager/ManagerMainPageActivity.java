@@ -51,23 +51,23 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
 
         }
         else if (id == R.id.action_list_product){
-            fragment = new ProductListFragment();
+            fragment = new ListFragment();
 
         }
         else if (id == R.id.action_list_brand){
-            fragment = new ProductListFragment();
+            fragment = new ListFragment();
 
         }
         else if (id == R.id.action_list_category){
-            fragment = new ProductListFragment();
+            fragment = new ListFragment();
 
         }
         else if (id == R.id.action_list_user){
-            fragment = new ProductListFragment();
+            fragment = new ListFragment();
 
         }
         else if (id == R.id.action_list_stock){
-            fragment = new ProductListFragment();
+            fragment = new ListFragment();
 
         }
         else return false;

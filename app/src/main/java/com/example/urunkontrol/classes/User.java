@@ -1,26 +1,35 @@
+
 package com.example.urunkontrol.classes;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class User {
-    private int userId;
-    private String name,userName,password;
-    private boolean loginStatus;
 
-    public User() {
-    }
+    @SerializedName("user_id")
+    @Expose
+    private String userId;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("user_name")
+    @Expose
+    private String userName;
+    @SerializedName("password")
+    @Expose
+    private String password;
+    @SerializedName("login_status")
+    @Expose
+    private String loginStatus;
+    @SerializedName("tc_no")
+    @Expose
+    private String tcNo;
 
-    public User(int userId, String name, String userName, String password, boolean loginStatus) {
-        this.userId = userId;
-        this.name = name;
-        this.userName = userName;
-        this.password = password;
-        this.loginStatus = loginStatus;
-    }
-
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -48,11 +57,20 @@ public class User {
         this.password = password;
     }
 
-    public boolean isLoginStatus() {
+    public String getLoginStatus() {
         return loginStatus;
     }
 
-    public void setLoginStatus(boolean loginStatus) {
+    public void setLoginStatus(String loginStatus) {
         this.loginStatus = loginStatus;
     }
+
+    public String getTcNo() {
+        return tcNo;
+    }
+
+    public void setTcNo(String tcNo) {
+        this.tcNo = tcNo;
+    }
+
 }

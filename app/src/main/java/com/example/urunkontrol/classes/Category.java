@@ -1,22 +1,23 @@
+
 package com.example.urunkontrol.classes;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Category {
-    private int categoryId;
+
+    @SerializedName("category_id")
+    @Expose
+    private String categoryId;
+    @SerializedName("category_name")
+    @Expose
     private String categoryName;
 
-    public Category() {
-    }
-
-    public Category(int categoryId, String categoryName) {
-        this.categoryId = categoryId;
-        this.categoryName = categoryName;
-    }
-
-    public int getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -27,4 +28,5 @@ public class Category {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
+
 }
