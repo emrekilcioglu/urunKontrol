@@ -7,20 +7,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.urunkontrol.R;
 import com.example.urunkontrol.classes.ApiUtils;
-import com.example.urunkontrol.classes.Brand;
 import com.example.urunkontrol.classes.BrandDaoInterface;
-import com.example.urunkontrol.classes.BrandResponse;
 import com.example.urunkontrol.classes.Category;
 import com.example.urunkontrol.classes.CategoryDaoInterface;
 import com.example.urunkontrol.classes.CategoryResponse;
-import com.example.urunkontrol.classes.RvAdapter;
+import com.example.urunkontrol.classes.RvAdapterCategory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -34,14 +31,20 @@ public class ListFragment extends Fragment {
     private FloatingActionButton floatButtonPool;
     private Intent intent;
     private BrandDaoInterface brandDif;
-    private CategoryDaoInterface categoryDif;
+    //private CategoryDaoInterface categoryDif;
     private List<Category> categories;
     private RecyclerView recyclerViewPool;
-    private RvAdapter rvAdapter;
+    private RvAdapterCategory rvAdapterCategory;
+    private RecyclerView.Adapter adapter;
+    public ListFragment(RecyclerView.Adapter adapter){
+        this.adapter = adapter;
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        categoryDif = ApiUtils.getCategoryInterface();
+        //categoryDif = ApiUtils.getCategoryInterface();
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
@@ -49,6 +52,8 @@ public class ListFragment extends Fragment {
         recyclerViewPool = rootView.findViewById(R.id.recyclerViewPool);
         recyclerViewPool.setHasFixedSize(true);
         recyclerViewPool.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewPool.setAdapter(adapter);
+
 
         intent = new Intent(getContext(),ProductAddActivity.class);
         //brandDif = ApiUtils.getBrandDaoInterface();//Apiye bağladık
@@ -59,7 +64,7 @@ public class ListFragment extends Fragment {
             startActivity(intent);
 
         });*/
-        tumKategori();
+        //tumKategori();
         // TODO: 16/11/2022 Bütün elemanlar için adapter bağla ve listlele 
 
 
@@ -67,20 +72,7 @@ public class ListFragment extends Fragment {
 
     }
     public void tumKategori(){
-        categoryDif.allCategory().enqueue(new Callback<CategoryResponse>() {
-            @Override
-            public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-                rvAdapter = new RvAdapter(getContext(),response.body().getCategory());
-                recyclerViewPool.setAdapter(rvAdapter);
 
-
-            }
-
-            @Override
-            public void onFailure(Call<CategoryResponse> call, Throwable t) {
-
-            }
-        });
     }
 
 }

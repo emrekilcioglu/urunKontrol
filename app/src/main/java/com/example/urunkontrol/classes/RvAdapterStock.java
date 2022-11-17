@@ -15,13 +15,13 @@ import com.example.urunkontrol.R;
 
 import java.util.List;
 
-public class RvAdapter extends RecyclerView.Adapter<RvAdapter.CardViewObjectHolder>{
+public class RvAdapterStock extends RecyclerView.Adapter<RvAdapterStock.CardViewObjectHolder>{
     private Context mContext;// Contexte ihtiyacımız olacka bşatan tanımladık
-    private List<Category> categories;//zaten gelecek veri
+    private List<Stock> stockList;//zaten gelecek veri
 
-    public RvAdapter(Context mContext, List<Category> categories) {
+    public RvAdapterStock(Context mContext, List<Stock> stockList) {
         this.mContext = mContext;
-        this.categories = categories ;
+        this.stockList = stockList ;
     }
     public class CardViewObjectHolder extends RecyclerView.ViewHolder{
         //Bu sınıf görsel elemanarla ilgilidir
@@ -52,15 +52,15 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.CardViewObjectHold
 
     @Override
     public void onBindViewHolder(@NonNull CardViewObjectHolder holder, int position) {//item count kadar çalışır
-        Category category  = categories.get(position);
-        holder.textViewCard.setText(category.getCategoryName());
+        Stock stock  = stockList.get(position);
+        holder.textViewCard.setText(stock.getProduct().getProductName());
 
 
     }
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return stockList.size();
     }
 
 
