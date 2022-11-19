@@ -8,18 +8,28 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.urunkontrol.R;
 import com.example.urunkontrol.ReadQrFragment;
 import com.example.urunkontrol.classes.ApiUtils;
+import com.example.urunkontrol.classes.Brand;
+import com.example.urunkontrol.classes.BrandDaoInterface;
+import com.example.urunkontrol.classes.BrandResponse;
 import com.example.urunkontrol.classes.CategoryDaoInterface;
 import com.example.urunkontrol.classes.CategoryResponse;
+import com.example.urunkontrol.classes.ProductDaoInterface;
+import com.example.urunkontrol.classes.ProductResponse;
+import com.example.urunkontrol.classes.RvAdapterBrand;
 import com.example.urunkontrol.classes.RvAdapterCategory;
+import com.example.urunkontrol.classes.RvAdapterProduct;
 import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
@@ -35,7 +45,6 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
     private RecyclerView.Adapter rvAdapterCategory;
 
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,53 +62,49 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
 
 
 
+
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_home_page){
-            fragment = new ReadQrFragment();
+        switch (id){
+            case R.id.action_home_page:
+                fragment = new ReadQrFragment();
+                return true;
+
+
+            case R.id.action_list_category:
+                allCategory2();
+                drawerLayoutM.closeDrawer(GravityCompat.START);
+                return true;
+
+
+
+
+
 
         }
-        else if (id == R.id.action_list_product){
-            allCategory();
-            fragment = new ListFragment(rvAdapterCategory);
+        return super.onOptionsItemSelected(item);
 
 
-        }
-        else if (id == R.id.action_list_brand){
-            fragment = new ListFragment(rvAdapterCategory);
 
-        }
-        else if (id == R.id.action_list_category){
-            fragment = new ListFragment(rvAdapterCategory);
 
-        }
-        else if (id == R.id.action_list_user){
-            fragment = new ListFragment(rvAdapterCategory);
-
-        }
-        else if (id == R.id.action_list_stock){
-            fragment = new ListFragment(rvAdapterCategory);
-
-        }
-        else return false;
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragmentContainerViewM,fragment)
-                .commit();
-        drawerLayoutM.closeDrawer(GravityCompat.START);
-
-        return true;
     }
-    public void allCategory(){
+    public void allCategory2(){
+        Log.e("All category","Al Category");
         CategoryDaoInterface categoryDif;
         categoryDif = ApiUtils.getCategoryInterface();
+        Log.e("Kayın2","Kayıt2");
+
         categoryDif.allCategory().enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 rvAdapterCategory = new RvAdapterCategory(ManagerMainPageActivity.this,response.body().getCategory());
+                fragment = new ListFragment(rvAdapterCategory);
+                replaceFragment(fragment);
+
+
 
 
 
@@ -111,5 +116,35 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
             }
         });
     }
+    public void allBrand(){
+        BrandDaoInterface brandDif;
+        brandDif = ApiUtils.getBrandDaoInterface();
+
+        brandDif.allBrand().enqueue(new Callback<BrandResponse>() {
+            @Override
+            public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
+                rvAdapterCategory = new RvAdapterBrand(ManagerMainPageActivity.this,response.body().getBrand());
+                Log.e("Api","Api");
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<BrandResponse> call, Throwable t) {
+
+            }
+        });
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerViewM,fragment);
+        fragmentTransaction.commit();
+    }
+
+
+
 
 }
