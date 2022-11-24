@@ -30,6 +30,9 @@ import com.example.urunkontrol.classes.ProductResponse;
 import com.example.urunkontrol.classes.RvAdapterBrand;
 import com.example.urunkontrol.classes.RvAdapterCategory;
 import com.example.urunkontrol.classes.RvAdapterProduct;
+import com.example.urunkontrol.classes.RvAdapterUser;
+import com.example.urunkontrol.classes.UserDaoInterface;
+import com.example.urunkontrol.classes.UserResponse;
 import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
@@ -42,7 +45,7 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
     private NavigationView navigationViewM;
     private FragmentContainerView fragmentContainerM;
     private Fragment fragment;
-    private RecyclerView.Adapter rvAdapterCategory;
+    private RecyclerView.Adapter adapter;
 
 
     @Override
@@ -71,11 +74,25 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
         switch (id){
             case R.id.action_home_page:
                 fragment = new ReadQrFragment();
+                replaceFragment(fragment);
+                drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
 
 
             case R.id.action_list_category:
-                allCategory2();
+                allCategory();
+                drawerLayoutM.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_list_brand:
+                allBrand();
+                drawerLayoutM.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_list_product:
+                allProduct();
+                drawerLayoutM.closeDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_list_user:
+                allUser();
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
 
@@ -84,24 +101,36 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
 
 
 
+
+
+
+
+
+
         }
+
         return super.onOptionsItemSelected(item);
 
 
 
 
     }
-    public void allCategory2(){
-        Log.e("All category","Al Category");
+    @Override
+    public void onBackPressed() {
+        if(drawerLayoutM.isDrawerOpen(GravityCompat.START)){
+            drawerLayoutM.closeDrawer(GravityCompat.START);
+        }
+        else
+            super.onBackPressed();
+    }
+    public void allCategory(){
         CategoryDaoInterface categoryDif;
         categoryDif = ApiUtils.getCategoryInterface();
-        Log.e("Kayın2","Kayıt2");
-
         categoryDif.allCategory().enqueue(new Callback<CategoryResponse>() {
             @Override
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
-                rvAdapterCategory = new RvAdapterCategory(ManagerMainPageActivity.this,response.body().getCategory());
-                fragment = new ListFragment(rvAdapterCategory);
+                adapter = new RvAdapterCategory(ManagerMainPageActivity.this,response.body().getCategory());
+                fragment = new ListFragment(adapter);
                 replaceFragment(fragment);
 
 
@@ -123,8 +152,10 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
         brandDif.allBrand().enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
-                rvAdapterCategory = new RvAdapterBrand(ManagerMainPageActivity.this,response.body().getBrand());
-                Log.e("Api","Api");
+                adapter = new RvAdapterBrand(ManagerMainPageActivity.this,response.body().getBrand());
+                fragment = new ListFragment(adapter);
+                replaceFragment(fragment);
+
 
 
 
@@ -137,6 +168,53 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
             }
         });
     }
+    public void allProduct(){
+        ProductDaoInterface productdDif;
+        productdDif = ApiUtils.getProductInterface();
+
+        productdDif.allProduct().enqueue(new Callback<ProductResponse>() {
+            @Override
+            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                adapter = new RvAdapterProduct(ManagerMainPageActivity.this,response.body().getProduct());
+                fragment = new ListFragment(adapter);
+                replaceFragment(fragment);
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ProductResponse> call, Throwable t) {
+
+            }
+        });
+    }
+    public void allUser(){
+        UserDaoInterface userDif;
+        userDif = ApiUtils.getUserInterface();
+
+        userDif.allUser().enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                adapter = new RvAdapterUser(ManagerMainPageActivity.this,response.body().getUser());
+                fragment = new ListFragment(adapter);
+                replaceFragment(fragment);
+
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

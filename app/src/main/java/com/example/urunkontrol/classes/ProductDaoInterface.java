@@ -4,6 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ProductDaoInterface {
-    @GET("urunKontrolApi/all_product")
-    Call<BrandResponse> allProduct();
+    @GET("urunKontrol/all_product.php")
+    Call<ProductResponse> allProduct();
 }

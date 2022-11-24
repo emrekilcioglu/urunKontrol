@@ -4,6 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface UserDaoInterface {
-    @GET("urunKontrolApi/all_user")
-    Call<BrandResponse> allUser();
+    @GET("urunKontrol/all_user.php")
+    Call<UserResponse> allUser();
 }

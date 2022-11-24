@@ -8,6 +8,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     private NavigationView navViewEmp;
     private FragmentContainerView fragmentContainerView;
     private Fragment fragment;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -75,5 +78,12 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
                 .commit();
         drawerLayoutEmp.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentContainerViewEmp,fragment);
+        fragmentTransaction.commit();
     }
 }

@@ -24,6 +24,9 @@ public class User {
     @SerializedName("tc_no")
     @Expose
     private String tcNo;
+    @SerializedName("job_status")
+    @Expose
+    private String jobStatus;
 
     public String getUserId() {
         return userId;
@@ -71,6 +74,14 @@ public class User {
 
     public void setTcNo(String tcNo) {
         this.tcNo = tcNo;
+    }
+
+    public String getJobStatus() {
+        return jobStatus;
+    }
+
+    public void setJobStatus(String jobStatus) {
+        this.jobStatus = jobStatus;
     }
 
 }

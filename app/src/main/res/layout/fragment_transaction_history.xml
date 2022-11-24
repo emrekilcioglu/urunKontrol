@@ -6,6 +6,7 @@
     tools:context=".employee.TransactionHistoryFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recylerViewHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
