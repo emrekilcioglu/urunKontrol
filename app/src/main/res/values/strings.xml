@@ -14,8 +14,14 @@
     <string name="toolbar_emp_main_page">Giriş Yap</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!--Qr Texts-->
+    <!--Qr Fragment-->
     <string name="flash_info">Ses artırma tuşu ile flaşı açabilir,ses azaltma tuşu ile de flasşı kapatabilirsiniz </string>
+    <string name="dialog_title">Hata</string>
+    <string name="dialog_message">Böyle bir ürün bulunamadı</string>
+    <string name="okey">Tamam</string>
+
+
+
 
 
 

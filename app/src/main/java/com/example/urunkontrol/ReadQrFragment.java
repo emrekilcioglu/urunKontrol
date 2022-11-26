@@ -32,6 +32,9 @@ public class ReadQrFragment extends Fragment {
     private Button buttonReadQr;
     private Intent intentChoice;
     private ProductDaoInterface productDif;
+    public ReadQrFragment(){
+        Log.e("Constr","COnst Çalıştır");
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,31 +42,12 @@ public class ReadQrFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_read_qr, container, false);
         buttonReadQr  = rootView.findViewById(R.id.buttonReadQr);
         intentChoice = new Intent(getContext(), EmployeeChoiceActivity.class);
-        productDif = ApiUtils.getProductInterface();
-        productDif.qrControl("1111111111").enqueue(new Callback<ProductResponse>() {
-            @Override
-            public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
-                if (response.body().getProduct() == null){
-                    Log.e("DUrum","böyle bir ürün yok");
-                }
-                for (Product p:response.body().getProduct()){
-                    Log.e("Product Name",p.getProductName());
-                    Log.e("Succes",response.body().getSuccess().toString());
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ProductResponse> call, Throwable t) {
-                Log.e("Hata",t.getMessage());
 
 
-            }
-        });
 
         buttonReadQr.setOnClickListener(view -> {
             scanCode();
+
         });
 
         return rootView;
@@ -75,14 +59,52 @@ public class ReadQrFragment extends Fragment {
         options.setBeepEnabled(true);//Beep ses manasında
         options.setOrientationLocked(true);
         options.setCaptureActivity(CaptureAct.class);
+
         barLauncher.launch(options);
     }
     ActivityResultLauncher<ScanOptions> barLauncher =registerForActivityResult(new ScanContract(), result -> {
-        if (result.getContents() !=null){
+        //asıl işler burada olacak çünkü veri burada
+        String qrBarcode = result.getContents();
+
+        if (qrBarcode != null){
+            productDif = ApiUtils.getProductInterface();
+            productDif.qrControl(qrBarcode).enqueue(new Callback<ProductResponse>() {
+                @Override
+                public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                    Log.e("Retrofit","Retro Çlıştır");
+                    if (response.body().getSuccess() == 1){
+
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle(getString(R.string.dialog_title));
+                        builder.setMessage("Böyle bir ürün bulunamadı");//Veri burada
+                        builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
 
 
-            result.getContents();//Veri burada
-            // TODO: 20/11/2022 Qr bağladın ama iç işlemleri şu an boş 
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<ProductResponse> call, Throwable t) {
+                    Log.e("Hata",t.getMessage());
+
+
+                }
+            });
+
+
+
+
+
+
 
         }
     });//Burada da gelen veriyle alakalı işlemler yapıyoruz

@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     private NavigationView navViewEmp;
     private FragmentContainerView fragmentContainerView;
     private Fragment fragment;
+    private Bundle bundleRole;
 
 
     @SuppressLint("MissingInflatedId")
@@ -38,6 +40,19 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         toolbarEmp = findViewById(R.id.toolbarEmp);
         navViewEmp = findViewById(R.id.navViewEmp);
         fragmentContainerView = findViewById(R.id.fragmentContainerViewEmp);
+        bundleRole = new Bundle();
+        bundleRole.putBoolean("role",true);
+        if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("some_int", 0);
+            Log.e("İf çalıştı","İf çalıştı");
+
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragmentContainerViewEmp,ReadQrFragment.class, bundleRole)
+                    .commit();
+        }
+
         setSupportActionBar(toolbarEmp);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutEmp,toolbarEmp,0,0);
         drawerLayoutEmp.addDrawerListener(toggle);
@@ -65,6 +80,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_home){
+            Log.e("HomeCalisit","Home Calisti");
             fragment = new ReadQrFragment();
         }
         else if (id == R.id.action_history){
