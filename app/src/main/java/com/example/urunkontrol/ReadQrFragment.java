@@ -20,8 +20,12 @@ import com.example.urunkontrol.classes.Product;
 import com.example.urunkontrol.classes.ProductDaoInterface;
 import com.example.urunkontrol.classes.ProductResponse;
 import com.example.urunkontrol.employee.EmployeeChoiceActivity;
+import com.example.urunkontrol.manager.ManagerChoiceActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
+
+import java.io.Serializable;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +34,7 @@ import retrofit2.Response;
 
 public class ReadQrFragment extends Fragment {
     private Button buttonReadQr;
-    private Intent intentChoice;
+    private Intent intent;
     private ProductDaoInterface productDif;
     public ReadQrFragment(){
         Log.e("Constr","COnst Çalıştır");
@@ -41,7 +45,7 @@ public class ReadQrFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_read_qr, container, false);
         buttonReadQr  = rootView.findViewById(R.id.buttonReadQr);
-        intentChoice = new Intent(getContext(), EmployeeChoiceActivity.class);
+
 
 
 
@@ -73,6 +77,19 @@ public class ReadQrFragment extends Fragment {
                 public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                     Log.e("Retrofit","Retro Çlıştır");
                     if (response.body().getSuccess() == 1){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Ürün");
+                        builder.setMessage(response.body().getProduct().get(0).getProductName());//Veri burada
+                        builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+
+
+
+
 
                     }
                     else {
@@ -108,4 +125,13 @@ public class ReadQrFragment extends Fragment {
 
         }
     });//Burada da gelen veriyle alakalı işlemler yapıyoruz
+    public Intent intentRouter(List<ProductResponse> productResponseList){
+        if (getArguments().getBoolean("role")){
+            return new Intent(getContext(),EmployeeChoiceActivity.class).putExtra("product_list", (Serializable) productResponseList);
+        }
+        else
+            return new Intent(getContext(), ManagerChoiceActivity.class).putExtra("product_list", (Serializable) productResponseList);
+
+
+    }
 }

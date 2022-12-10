@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,30 +29,31 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     private NavigationView navViewEmp;
     private FragmentContainerView fragmentContainerView;
     private Fragment fragment;
-    private Bundle bundleRole;
+    private Intent intent;
+
 
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {//Burada başlangıçta gelecek fragmentı tanımladık
+            Bundle bundle = new Bundle();//Buradan bu fragmenta veri yolluyorum
+            bundle.putBoolean("role",true);
+            Log.e("İf çalıştı","İf çalıştı");//kontrol temizlenecektir
+
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragmentContainerViewEmp,ReadQrFragment.class, bundle)
+                    .commit();
+        }
         setContentView(R.layout.activity_employee_main_page);
         drawerLayoutEmp = findViewById(R.id.drawerLayoutEmp);
         toolbarEmp = findViewById(R.id.toolbarEmp);
         navViewEmp = findViewById(R.id.navViewEmp);
         fragmentContainerView = findViewById(R.id.fragmentContainerViewEmp);
-        bundleRole = new Bundle();
-        bundleRole.putBoolean("role",true);
-        if (savedInstanceState == null) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("some_int", 0);
-            Log.e("İf çalıştı","İf çalıştı");
 
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragmentContainerViewEmp,ReadQrFragment.class, bundleRole)
-                    .commit();
-        }
+
 
         setSupportActionBar(toolbarEmp);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutEmp,toolbarEmp,0,0);
@@ -59,7 +61,9 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         toggle.syncState();//Toolbar üstüne togle butonu getirir
         View baslik = navViewEmp.inflateHeaderView(R.layout.navigation_title);
         TextView textView = baslik.findViewById(R.id.textViewName);
-        textView.setText("Emre Kılcıoğlu");
+        intent = getIntent();
+
+        textView.setText(intent.getStringExtra("name"));
         navViewEmp.setNavigationItemSelectedListener(this);
 
 
@@ -101,5 +105,6 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerViewEmp,fragment);
         fragmentTransaction.commit();
+
     }
 }

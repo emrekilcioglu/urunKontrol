@@ -13,9 +13,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.urunkontrol.R;
 import com.example.urunkontrol.ReadQrFragment;
@@ -46,11 +49,22 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
     private FragmentContainerView fragmentContainerM;
     private Fragment fragment;
     private RecyclerView.Adapter adapter;
+    private Intent intent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("role",false);
+            Log.e("İf çalıştı manager","İf çalıştı");
+
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragmentContainerViewM,ReadQrFragment.class, bundle)
+                    .commit();
+        }
         setContentView(R.layout.activity_manager_main_page);
         drawerLayoutM = findViewById(R.id.drawerLayoutM);
         toolbarM = findViewById(R.id.toolbarM);
@@ -61,6 +75,11 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutM,toolbarM,0,0);
         drawerLayoutM.addDrawerListener(toggle);
         toggle.syncState();
+        View baslik = navigationViewM.inflateHeaderView(R.layout.navigation_title);
+        TextView textView = baslik.findViewById(R.id.textViewName);
+        intent = getIntent();
+
+        textView.setText(intent.getStringExtra("name"));
         navigationViewM.setNavigationItemSelectedListener(this);
 
 
