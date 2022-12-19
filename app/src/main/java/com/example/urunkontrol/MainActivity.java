@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.urunkontrol.classes.ApiUtils;
+import com.example.urunkontrol.classes.CRUDResponse;
 import com.example.urunkontrol.classes.User;
 import com.example.urunkontrol.classes.UserDaoInterface;
 import com.example.urunkontrol.classes.UserResponse;
@@ -36,31 +37,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //otomatik giriş için
         sharedPreferences = getSharedPreferences("AutoLoginSettings", MODE_PRIVATE);
-
         userName = sharedPreferences.getString("user_name", null);
         password = sharedPreferences.getString("password", null);
         if (userName !=null && password != null){
             loginControl(userName,password);
         }
-        else {
-            setContentView(R.layout.activity_main);
-            buttonLogin = findViewById(R.id.buttonLogin);
-            editTextName = findViewById(R.id.edtitTextName);
-            editTextPassword = findViewById(R.id.editTextPassword);
+
+
+        setContentView(R.layout.activity_main);
+        buttonLogin = findViewById(R.id.buttonLogin);
+        editTextName = findViewById(R.id.edtitTextName);
+        editTextPassword = findViewById(R.id.editTextPassword);
 
 
 
-            buttonLogin.setOnClickListener(new View.OnClickListener() {
-                @SuppressLint("SuspiciousIndentation")
-                @Override
-                public void onClick(View view) {
-                    loginControl(editTextName.getText().toString(), editTextPassword.getText().toString());
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SuspiciousIndentation")
+            @Override
+            public void onClick(View view) {
+                loginControl(editTextName.getText().toString(), editTextPassword.getText().toString());
 
 
-                }
-            });
-        }
+            }
+        });
     }
 
     private void loginControl(String userName,String password){
@@ -69,18 +70,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.body().getSuccess() == 1){
-                    User user = response.body().getUser().get(0);
+                    User user = response.body().getUser().get(0);//Liste yerine direk veri yapmayı dene ileride
                     autoLoginSettings(userName,password);
                     switch (user.getJobStatus()){
                         case "0":
                             intentEmp =  new Intent(MainActivity.this, EmployeeMainPageActivity.class);
+                            intentEmp.putExtra("user_id",user.getUserId());
+                            intentEmp.putExtra("jobStatus",user.getJobStatus());
                             intentEmp.putExtra("name",user.getName());
 
                             startActivity(intentEmp);
                             break;
                         case "1":
                             intentManage = new Intent(MainActivity.this, ManagerMainPageActivity.class);
-                            intentManage.putExtra("name",user.getName());
+                            intentManage.putExtra("user_id",user.getUserId());
+                            intentManage.putExtra("jobStatus",user.getJobStatus());
+
+
 
 
                             startActivity(intentManage);
@@ -115,4 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("Main","Destroy");
+    }
 }

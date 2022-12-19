@@ -19,6 +19,7 @@ import com.example.urunkontrol.classes.CaptureAct;
 import com.example.urunkontrol.classes.Product;
 import com.example.urunkontrol.classes.ProductDaoInterface;
 import com.example.urunkontrol.classes.ProductResponse;
+import com.example.urunkontrol.classes.User;
 import com.example.urunkontrol.employee.EmployeeChoiceActivity;
 import com.example.urunkontrol.manager.ManagerChoiceActivity;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -34,8 +35,10 @@ import retrofit2.Response;
 
 public class ReadQrFragment extends Fragment {
     private Button buttonReadQr;
-    private Intent intent;
     private ProductDaoInterface productDif;
+    private Intent intentChoice;
+    private String jobStatus;
+    private String userId;
     public ReadQrFragment(){
         Log.e("Constr","COnst Çalıştır");
     }
@@ -45,6 +48,8 @@ public class ReadQrFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_read_qr, container, false);
         buttonReadQr  = rootView.findViewById(R.id.buttonReadQr);
+        jobStatus = getArguments().getString("job_status",null);
+        userId = getArguments().getString("user_id",null);
 
 
 
@@ -77,20 +82,7 @@ public class ReadQrFragment extends Fragment {
                 public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                     Log.e("Retrofit","Retro Çlıştır");
                     if (response.body().getSuccess() == 1){
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle("Ürün");
-                        builder.setMessage(response.body().getProduct().get(0).getProductName());//Veri burada
-                        builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
-
-
-
-
-
+                        intentRouter(jobStatus,qrBarcode,userId);
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -125,13 +117,24 @@ public class ReadQrFragment extends Fragment {
 
         }
     });//Burada da gelen veriyle alakalı işlemler yapıyoruz
-    public Intent intentRouter(List<ProductResponse> productResponseList){
-        if (getArguments().getBoolean("role")){
-            return new Intent(getContext(),EmployeeChoiceActivity.class).putExtra("product_list", (Serializable) productResponseList);
+
+    private void intentRouter(String jobStatus,String qrBarcode,String userId){
+        Intent intent;
+        switch (jobStatus){
+            case "0":
+                intent = new Intent(getContext(),EmployeeChoiceActivity.class);
+                intent.putExtra("user_id",userId);
+                intent.putExtra("qr_barcode",qrBarcode);
+                startActivity(intent);
+                break;
+            case "1":
+                intent = new Intent(getContext(),ManagerChoiceActivity.class);
+                break;
+
         }
-        else
-            return new Intent(getContext(), ManagerChoiceActivity.class).putExtra("product_list", (Serializable) productResponseList);
+
 
 
     }
+
 }

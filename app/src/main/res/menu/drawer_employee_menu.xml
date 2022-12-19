@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_home"
@@ -7,4 +8,9 @@
     <item
         android:id="@+id/action_history"
         android:title="İşlem Geçmişi" />
+    <item
+        android:id="@+id/action_log_out"
+        android:icon="@drawable/exit"
+        android:title="Çıkış Yap"
+        app:showAsAction="withText" />
 </menu>
