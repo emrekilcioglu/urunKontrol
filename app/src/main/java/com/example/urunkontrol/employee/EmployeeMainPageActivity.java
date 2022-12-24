@@ -25,7 +25,9 @@ import com.example.urunkontrol.R;
 import com.example.urunkontrol.ReadQrFragment;
 import com.example.urunkontrol.classes.ApiUtils;
 import com.example.urunkontrol.classes.CRUDResponse;
+import com.example.urunkontrol.classes.User;
 import com.example.urunkontrol.classes.UserDaoInterface;
+import com.example.urunkontrol.classes.UserResponse;
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.DateFormat;
@@ -45,7 +47,9 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     private Fragment fragment;
     private Intent intent;
     private Intent intentMainAct;
-    private String userId;
+    private String userId,jobStatus,name;
+    private UserDaoInterface userDif;
+
 
 
 
@@ -54,25 +58,52 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         intentMainAct = getIntent();
-        Log.e("Name",intentMainAct.getStringExtra("jobStatus"));
-        if (savedInstanceState == null) {//Burada başlangıçta gelecek fragmentı tanımladık
-            Bundle bundle = new Bundle();//Buradan bu fragmenta veri yolluyorum
-            //oq fragment için veri gönderimi
-            bundle.putString("job_status",intentMainAct.getStringExtra("jobStatus"));
-            bundle.putString("user_id",intentMainAct.getStringExtra("user_id"));
-            Log.e("İf çalıştı","İf çalıştı");//kontrol temizlenecektir
-            // TODO: 15/12/2022 Bu bundlelarda bulunan veriyi qr fragmnetta aktar 
-
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragmentContainerViewEmp,ReadQrFragment.class, bundle)
-                    .commit();
-        }
+        userDif = ApiUtils.getUserInterface();
+        userId = intentMainAct.getStringExtra("user_id");//user id,intentden aldığımız veri burada
         setContentView(R.layout.activity_employee_main_page);
         drawerLayoutEmp = findViewById(R.id.drawerLayoutEmp);
         toolbarEmp = findViewById(R.id.toolbarEmp);
         navViewEmp = findViewById(R.id.navViewEmp);
         fragmentContainerView = findViewById(R.id.fragmentContainerViewEmp);
+
+        View baslik = navViewEmp.inflateHeaderView(R.layout.navigation_title);
+        TextView textView = baslik.findViewById(R.id.textViewName);
+
+
+        //Retrofit metodu burada
+        userDif.searchUser(userId).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                User user = response.body().getUser().get(0);
+                jobStatus = user.getJobStatus();
+                name = user.getName();
+                textView.setText(name);
+
+
+                if (savedInstanceState == null) {//Burada başlangıçta gelecek fragmentı tanımladık
+                    Bundle bundle = new Bundle();//Buradan bu fragmenta veri yolluyorum
+                    //oq fragment için veri gönderimi
+                    bundle.putString("job_status",jobStatus);
+                    bundle.putString("user_id",userId);
+                    Log.e("İf çalıştı","İf çalıştı");//kontrol temizlenecektir
+                    // TODO: 15/12/2022 Bu bundlelarda bulunan veriyi qr fragmnetta aktar
+
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.fragmentContainerViewEmp,ReadQrFragment.class, bundle)
+                            .commit();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
+
+
+
 
 
 
@@ -81,10 +112,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutEmp,toolbarEmp,0,0);
         drawerLayoutEmp.addDrawerListener(toggle);
         toggle.syncState();//Toolbar üstüne togle butonu getirir
-        View baslik = navViewEmp.inflateHeaderView(R.layout.navigation_title);
-        TextView textView = baslik.findViewById(R.id.textViewName);
 
-        textView.setText(intentMainAct.getStringExtra("name"));
         navViewEmp.setNavigationItemSelectedListener(this);
 
 
@@ -93,7 +121,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed() {//Geri tuşu ile drawerı kapatmamıza yarar
         if(drawerLayoutEmp.isDrawerOpen(GravityCompat.START)){
             drawerLayoutEmp.closeDrawer(GravityCompat.START);
         }
@@ -105,16 +133,18 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Bundle bundleMenu = new Bundle();//Buradan bu fragmenta veri yolluyorum
         //oq fragment için veri gönderimi
-        bundleMenu.putString("job_status",intentMainAct.getStringExtra("jobStatus"));
-        bundleMenu.putString("user_id",intentMainAct.getStringExtra("user_id"));
+        bundleMenu.putString("job_status",jobStatus);
+        bundleMenu.putString("user_id",userId);
         int id = item.getItemId();
-        if (id == R.id.action_home){
+        if (id == R.id.action_home){//drawerda ki anasayfaya geçiş ve veri yollama
             Log.e("HomeCalisit","Home Calisti");
             fragment = new ReadQrFragment();
-            fragment.setArguments(bundleMenu);//Fragmenta geçerken veri ekledim
+
         }
         else if (id == R.id.action_history){
             fragment = new TransactionHistoryFragment();
+
+
         }
         else if (id == R.id.action_log_out){
             SharedPreferences sharedPreferences = getSharedPreferences("AutoLoginSettings", MODE_PRIVATE);
@@ -130,6 +160,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         }
         else return false;
         if (fragment != null){
+            fragment.setArguments(bundleMenu);//Fragmenta geçerken veri ekledim
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainerViewEmp,fragment)
@@ -153,9 +184,8 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
     // TODO: 12/12/2022 Giriş ve çıkış işlemleri mainlerde dönecek 
 
     private void cikis(){
-        UserDaoInterface userDif = ApiUtils.getUserInterface();
-        intent = getIntent();
-        userId = intent.getStringExtra("user_id");
+
+
         userDif.closeUser(userId).enqueue(new Callback<CRUDResponse>() {
             @Override
             public void onResponse(Call<CRUDResponse> call, Response<CRUDResponse> response) {

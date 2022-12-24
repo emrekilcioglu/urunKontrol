@@ -24,31 +24,30 @@ public class EmployeeChoiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_employee_choice);
         buttonProductArrive = findViewById(R.id.buttonProductArrive);
         buttonProductOut = findViewById(R.id.buttonProductOut);
-        //List<ProductResponse> productResponseList = getIntent().getSerializableExtra("product_list");
-        //Log.e("List",)
         intentMain = getIntent();
+        //intentden aldığımız veriler
         qrBarcode = intentMain.getStringExtra("qr_barcode");
         userId = intentMain.getStringExtra("user_id");
-        buttonProductOut.setOnClickListener(view -> {
-            intentProductInput = new Intent(this, ProductInputActivity.class);
-            intentProductInput.putExtra("movement_state","0");
-            intentProductInput.putExtra("qr_barcode",qrBarcode);
-            intentProductInput.putExtra("user_id",userId);
-            // TODO: 18/12/2022 product movement insert başarıyla tamamlandı 
 
-            startActivity(intentProductInput);
+        //Seçim butonlarımız
+        buttonProductOut.setOnClickListener(view -> {
+            intentRouter("0");
 
         });
         buttonProductArrive.setOnClickListener(view -> {
-            intentProductInput = new Intent(this, ProductInputActivity.class);
-            intentProductInput.putExtra("movement_state","1");
-            intentProductInput.putExtra("qr_barcode",qrBarcode);
-            intentProductInput.putExtra("user_id",userId);
-            startActivity(intentProductInput);
+            intentRouter("1");
 
         });
 
 
         // TODO: 27/11/2022 Listeleri göndermekten vazgeçtim direk qr code numarası atacam ilgili fragmnetlarda apiye bağlanırım
+    }
+    private void intentRouter(String movementState){
+        intentProductInput = new Intent(this, ProductInputActivity.class);
+        intentProductInput.putExtra("movement_state",movementState);
+        intentProductInput.putExtra("qr_barcode",qrBarcode);
+        intentProductInput.putExtra("user_id",userId);
+        startActivity(intentProductInput);
+
     }
 }

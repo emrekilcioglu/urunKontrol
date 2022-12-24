@@ -57,7 +57,7 @@ public class ListFragment extends Fragment {
         recyclerViewPool.setAdapter(adapter);
 
 
-        intent = new Intent(getContext(),ProductAddActivity.class);
+        //intent = new Intent(getContext(),ProductAddActivity.class);
         //brandDif = ApiUtils.getBrandDaoInterface();//Apiye bağladık
 
 
@@ -73,8 +73,6 @@ public class ListFragment extends Fragment {
         return  rootView;
 
     }
-    public void tumKategori(){
 
-    }
 
 }

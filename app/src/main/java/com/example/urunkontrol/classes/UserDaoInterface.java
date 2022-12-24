@@ -20,4 +20,8 @@ public interface UserDaoInterface {
     @FormUrlEncoded
     Call<CRUDResponse> closeUser(@Field("user_id") String userId);
 
+    @POST("urunKontrol/search_user.php")
+    @FormUrlEncoded
+    Call<UserResponse> searchUser(@Field("user_id") String userId);
+
 }

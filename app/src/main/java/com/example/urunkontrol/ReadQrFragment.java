@@ -48,11 +48,9 @@ public class ReadQrFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_read_qr, container, false);
         buttonReadQr  = rootView.findViewById(R.id.buttonReadQr);
+        //Activity den aldığımız veriler
         jobStatus = getArguments().getString("job_status",null);
         userId = getArguments().getString("user_id",null);
-
-
-
 
         buttonReadQr.setOnClickListener(view -> {
             scanCode();
@@ -73,7 +71,7 @@ public class ReadQrFragment extends Fragment {
     }
     ActivityResultLauncher<ScanOptions> barLauncher =registerForActivityResult(new ScanContract(), result -> {
         //asıl işler burada olacak çünkü veri burada
-        String qrBarcode = result.getContents();
+        String qrBarcode = result.getContents();//Qr verimiz burada
 
         if (qrBarcode != null){
             productDif = ApiUtils.getProductInterface();
@@ -85,15 +83,38 @@ public class ReadQrFragment extends Fragment {
                         intentRouter(jobStatus,qrBarcode,userId);
                     }
                     else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle(getString(R.string.dialog_title));
-                        builder.setMessage("Böyle bir ürün bulunamadı");//Veri burada
-                        builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).show();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());//Dialog nesnemiz
+                        switch (jobStatus){
+                            case "0":
+                                builder.setTitle(getString(R.string.dialog_title));
+                                builder.setMessage("Böyle bir ürün bulunamadı");//Veri burada
+                                builder.setPositiveButton("Tamam", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+                                break;
+                            case "1":
+                                builder.setTitle(getString(R.string.dialog_title));
+                                builder.setMessage("Böyle bir ürün bulunamadı,ürün eklemek ister misiniz?");
+                                builder.setPositiveButton("Ekle", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        // TODO: 21/12/2022 Buraya ürün eklmeme sayfasına geçiş ekle
+                                    }
+                                }).show();
+                                builder.setNegativeButton("Ekleme", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+
+
+
+                        }
+
 
 
                     }
@@ -136,5 +157,8 @@ public class ReadQrFragment extends Fragment {
 
 
     }
+
+
+
 
 }

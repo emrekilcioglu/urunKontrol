@@ -16,4 +16,11 @@ public interface ProductMovementDaoInterfaca {
     Call<CRUDResponse> insertProductMovement(@Field("product_id") String productId, @Field("user_id") String userId,@Field("date") String date,@Field("movement_state") String movementState, @Field("piece") String piece);//Bize kisilerCevap türünden veri döneceğini belirttik
     //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
 
+    @POST("urunKontrol/transaction_history.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<ProductMovementResponse> transHistory(@Field("user_id") String userId);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
+
+
 }

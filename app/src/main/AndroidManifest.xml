@@ -30,13 +30,6 @@
         </activity>
 
         <activity
-            android:name=".employee.ProductPoolActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".employee.EmployeeMainPageActivity"
             android:exported="false">
             <meta-data

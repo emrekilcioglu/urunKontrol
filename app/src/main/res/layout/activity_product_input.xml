@@ -12,11 +12,22 @@
         android:layout_height="wrap_content"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonContiuneInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputLayoutOne"
         app:layout_constraintVertical_bias=".8"
         />
+
+    <Button
+        android:id="@+id/buttonContiuneInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Devam"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonOkInputOne"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutOne"
+        app:layout_constraintVertical_bias=".8" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutOne"
