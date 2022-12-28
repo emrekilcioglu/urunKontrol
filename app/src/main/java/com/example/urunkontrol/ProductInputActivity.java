@@ -67,6 +67,7 @@ public class ProductInputActivity extends AppCompatActivity {
             String piece = editTextProductNum.getText().toString();
             insertMove(productId,userId,piece);
             Intent mainIntet = new Intent(ProductInputActivity.this, EmployeeMainPageActivity.class);
+            mainIntet.putExtra("user_id",userId);
             startActivity(mainIntet);
             finish();
 

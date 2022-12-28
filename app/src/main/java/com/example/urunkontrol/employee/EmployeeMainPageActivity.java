@@ -139,6 +139,8 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         if (id == R.id.action_home){//drawerda ki anasayfaya geçiş ve veri yollama
             Log.e("HomeCalisit","Home Calisti");
             fragment = new ReadQrFragment();
+            fragment.setArguments(bundleMenu);
+
 
         }
         else if (id == R.id.action_history){
@@ -173,13 +175,7 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         return true;
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerViewEmp,fragment);
-        fragmentTransaction.commit();
 
-    }
 
     // TODO: 12/12/2022 Giriş ve çıkış işlemleri mainlerde dönecek 
 

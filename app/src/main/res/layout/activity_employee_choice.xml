@@ -7,13 +7,13 @@
     tools:context=".employee.EmployeeChoiceActivity">
 
     <Button
-        android:id="@+id/buttonProductOut"
+        android:id="@+id/buttonProductEdit"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="Ürün Çıkış"
         app:icon="@drawable/product_out"
         app:iconGravity="top"
-        app:layout_constraintBottom_toTopOf="@id/buttonProductArrive"
+        app:layout_constraintBottom_toTopOf="@id/buttonProductDelete"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         app:layout_constraintWidth_percent=".4" />
 
     <Button
-        android:id="@+id/buttonProductArrive"
+        android:id="@+id/buttonProductDelete"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="Ürün Girişi"
@@ -34,6 +34,6 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonProductOut"
+        app:layout_constraintTop_toBottomOf="@id/buttonProductEdit"
         app:layout_constraintWidth_percent=".4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

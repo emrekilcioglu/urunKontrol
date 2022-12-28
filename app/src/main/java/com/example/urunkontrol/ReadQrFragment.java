@@ -22,6 +22,7 @@ import com.example.urunkontrol.classes.ProductResponse;
 import com.example.urunkontrol.classes.User;
 import com.example.urunkontrol.employee.EmployeeChoiceActivity;
 import com.example.urunkontrol.manager.ManagerChoiceActivity;
+import com.example.urunkontrol.manager.ProductAddActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -102,6 +103,7 @@ public class ReadQrFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         // TODO: 21/12/2022 Buraya ürün eklmeme sayfasına geçiş ekle
+                                        startActivity(new Intent(getContext(), ProductAddActivity.class));
                                     }
                                 }).show();
                                 builder.setNegativeButton("Ekleme", new DialogInterface.OnClickListener() {
@@ -150,6 +152,10 @@ public class ReadQrFragment extends Fragment {
                 break;
             case "1":
                 intent = new Intent(getContext(),ManagerChoiceActivity.class);
+                intent.putExtra("user_id",userId);
+                intent.putExtra("qr_barcode",qrBarcode);
+                startActivity(intent);
+
                 break;
 
         }

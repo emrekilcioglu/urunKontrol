@@ -21,6 +21,9 @@ public class ProductMovement {
     @SerializedName("movement_state")
     @Expose
     private String movementState;
+    @SerializedName("piece")
+    @Expose
+    private String piece;
 
     public String getMovementId() {
         return movementId;
@@ -60,6 +63,14 @@ public class ProductMovement {
 
     public void setMovementState(String movementState) {
         this.movementState = movementState;
+    }
+
+    public String getPiece() {
+        return piece;
+    }
+
+    public void setPiece(String piece) {
+        this.piece = piece;
     }
 
 }

@@ -34,6 +34,7 @@ import com.example.urunkontrol.classes.RvAdapterBrand;
 import com.example.urunkontrol.classes.RvAdapterCategory;
 import com.example.urunkontrol.classes.RvAdapterProduct;
 import com.example.urunkontrol.classes.RvAdapterUser;
+import com.example.urunkontrol.classes.User;
 import com.example.urunkontrol.classes.UserDaoInterface;
 import com.example.urunkontrol.classes.UserResponse;
 import com.google.android.material.navigation.NavigationView;
@@ -49,37 +50,68 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
     private FragmentContainerView fragmentContainerM;
     private Fragment fragment;
     private RecyclerView.Adapter adapter;
-    private Intent intent;
+    private Intent intentMainAct;
+    private String userId,jobStatus,name;
+    private UserDaoInterface userDif;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null) {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("role",false);
-            Log.e("İf çalıştı manager","İf çalıştı");
 
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragmentContainerViewM,ReadQrFragment.class, bundle)
-                    .commit();
-        }
         setContentView(R.layout.activity_manager_main_page);
+
+        intentMainAct = getIntent();
+        userDif = ApiUtils.getUserInterface();
+        userId = intentMainAct.getStringExtra("user_id");//user id,intentden aldığımız veri burada
+
         drawerLayoutM = findViewById(R.id.drawerLayoutM);
         toolbarM = findViewById(R.id.toolbarM);
         navigationViewM = findViewById(R.id.navigationViewM);
         fragmentContainerM = findViewById(R.id.fragmentContainerViewM);
-        toolbarM.setTitle("Deney");
+
+        View baslik = navigationViewM.inflateHeaderView(R.layout.navigation_title);
+        TextView textView = baslik.findViewById(R.id.textViewName);
+
+        //Retrofit metodu burada
+        userDif.searchUser(userId).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                User user = response.body().getUser().get(0);
+                jobStatus = user.getJobStatus();
+                name = user.getName();
+                textView.setText(name);
+
+
+                if (savedInstanceState == null) {//Burada başlangıçta gelecek fragmentı tanımladık
+                    Bundle bundle = new Bundle();//Buradan bu fragmenta veri yolluyorum
+                    //oq fragment için veri gönderimi
+                    bundle.putString("job_status",jobStatus);
+                    bundle.putString("user_id",userId);
+                    Log.e("İf çalıştı","İf çalıştı");//kontrol temizlenecektir
+                    // TODO: 15/12/2022 Bu bundlelarda bulunan veriyi qr fragmnetta aktar
+
+                    getSupportFragmentManager().beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.fragmentContainerViewM,ReadQrFragment.class, bundle)
+                            .commit();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+
+            }
+        });
         setSupportActionBar(toolbarM);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayoutM,toolbarM,0,0);
         drawerLayoutM.addDrawerListener(toggle);
         toggle.syncState();
-        View baslik = navigationViewM.inflateHeaderView(R.layout.navigation_title);
-        TextView textView = baslik.findViewById(R.id.textViewName);
-        intent = getIntent();
 
-        textView.setText(intent.getStringExtra("name"));
         navigationViewM.setNavigationItemSelectedListener(this);
 
 
@@ -93,6 +125,12 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
         switch (id){
             case R.id.action_home_page:
                 fragment = new ReadQrFragment();
+                Bundle bundleMenu = new Bundle();//Buradan bu fragmenta veri yolluyorum
+                //oq fragment için veri gönderimi
+                bundleMenu.putString("job_status",jobStatus);
+                bundleMenu.putString("user_id",userId);
+                fragment.setArguments(bundleMenu);
+
                 replaceFragment(fragment);
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;

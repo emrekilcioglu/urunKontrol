@@ -53,7 +53,7 @@ public class RvAdapterTransHistory extends RecyclerView.Adapter<RvAdapterTransHi
     @Override
     public void onBindViewHolder(@NonNull RvAdapterTransHistory.CardViewObjectHolder holder, int position) {//item count kadar çalışır
         ProductMovement productMovement  = transHistoryList.get(position);
-        holder.textViewCard.setText(productMovement.getProduct().getProductName() + "   " + productMovement.getMovementState());
+        holder.textViewCard.setText(productMovement.getProduct().getProductName() + "   " + productMovement.getMovementState()+ "   "+productMovement.getPiece());
 
 
     }
