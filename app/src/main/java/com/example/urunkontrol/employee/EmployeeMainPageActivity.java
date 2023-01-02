@@ -195,9 +195,5 @@ public class EmployeeMainPageActivity extends AppCompatActivity implements Navig
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cikis();
-    }
+
 }

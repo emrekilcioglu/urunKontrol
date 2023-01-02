@@ -16,6 +16,11 @@ public interface BrandDaoInterface {
     Call<BrandResponse> searchBrand(@Field("brand_name") String brandName);//Bize kisilerCevap türünden veri döneceğini belirttik
     //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
 
+    @POST("urunKontrol/insert_brand.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<CRUDResponse> insertBrand(@Field("brand_name") String brandName);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
 
 
 }

@@ -129,8 +129,6 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
                 //oq fragment için veri gönderimi
                 bundleMenu.putString("job_status",jobStatus);
                 bundleMenu.putString("user_id",userId);
-                fragment.setArguments(bundleMenu);
-
                 replaceFragment(fragment);
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
@@ -188,6 +186,9 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
             public void onResponse(Call<CategoryResponse> call, Response<CategoryResponse> response) {
                 adapter = new RvAdapterCategory(ManagerMainPageActivity.this,response.body().getCategory());
                 fragment = new ListFragment(adapter);
+                Bundle bundleMenu = new Bundle();//Buradan bu fragmenta veri yolluyorum
+                bundleMenu.putString("user_id",userId);
+                fragment.setArguments(bundleMenu);
                 replaceFragment(fragment);
 
 
@@ -210,7 +211,12 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
                 adapter = new RvAdapterBrand(ManagerMainPageActivity.this,response.body().getBrand());
+                Bundle bundleMenu = new Bundle();//Buradan bu fragmenta veri yolluyorum
+
                 fragment = new ListFragment(adapter);
+                fragment.setArguments(bundleMenu);
+                bundleMenu.putString("user_id",userId);
+
                 replaceFragment(fragment);
 
 

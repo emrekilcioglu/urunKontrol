@@ -46,7 +46,7 @@ public class ProductInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_input);
         buttonOkInput = findViewById(R.id.buttonOkInputOne);
         buttonContiuneInput = findViewById(R.id.buttonContiuneInput);
-        editTextProductNum = findViewById(R.id.editTextProductOne);
+        editTextProductNum = findViewById(R.id.editTextAddOne);
         textInputLayoutPro = findViewById(R.id.textInputLayoutOne);
         textViewProductNam = findViewById(R.id.textViewProductNam);
         productDif = ApiUtils.getProductInterface();

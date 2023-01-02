@@ -103,15 +103,19 @@ public class ReadQrFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         // TODO: 21/12/2022 Buraya ürün eklmeme sayfasına geçiş ekle
-                                        startActivity(new Intent(getContext(), ProductAddActivity.class));
+                                        Intent intentProductAdd = new Intent(getContext(), ProductAddActivity.class);
+                                        intentProductAdd.putExtra("barcode_or_qr",qrBarcode);
+                                        startActivity(intentProductAdd);
+                                        dialogInterface.dismiss();
                                     }
-                                }).show();
+                                });
                                 builder.setNegativeButton("Ekleme", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         dialogInterface.dismiss();
                                     }
                                 }).show();
+                                break;
 
 
 
