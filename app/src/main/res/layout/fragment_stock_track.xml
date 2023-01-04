@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".manager.StockTrackFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
 
     <ProgressBar
@@ -37,4 +37,22 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:text="%60"
          />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintDimensionRatio="1.9"
+        app:layout_constraintVertical_bias=".07"
+
+
+
+
+
+
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
