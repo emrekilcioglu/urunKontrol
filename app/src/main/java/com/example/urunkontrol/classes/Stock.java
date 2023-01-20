@@ -6,49 +6,41 @@ import com.google.gson.annotations.SerializedName;
 
 public class Stock {
 
-    @SerializedName("stock_id")
+
+    @SerializedName("general_stock")
     @Expose
-    private String stockId;
-    @SerializedName("product")
+    private String generalStock;
+
+    @SerializedName("danger_stock")
     @Expose
-    private Product product;
-    @SerializedName("max_stock_level")
+    private String dangerStock;
+
+    @SerializedName("empty_stock")
     @Expose
-    private String maxStockLevel;
-    @SerializedName("stock_level")
-    @Expose
-    private String stockLevel;
+    private String emptyStock;
 
-    public String getStockId() {
-        return stockId;
+    public String getGeneralStock() {
+        return generalStock;
     }
 
-    public void setStockId(String stockId) {
-        this.stockId = stockId;
+    public void setGeneralStock(String generalStock) {
+        this.generalStock = generalStock;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getDangerStock() {
+        return dangerStock;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setDangerStock(String dangerStock) {
+        this.dangerStock = dangerStock;
     }
 
-    public String getMaxStockLevel() {
-        return maxStockLevel;
+    public String getEmptyStock() {
+        return emptyStock;
     }
 
-    public void setMaxStockLevel(String maxStockLevel) {
-        this.maxStockLevel = maxStockLevel;
-    }
-
-    public String getStockLevel() {
-        return stockLevel;
-    }
-
-    public void setStockLevel(String stockLevel) {
-        this.stockLevel = stockLevel;
+    public void setEmptyStock(String emptyStock) {
+        this.emptyStock = emptyStock;
     }
 
 }

@@ -28,6 +28,16 @@ public class Product {
     @Expose
     private Brand brand;
 
+    @SerializedName("max_stock_level")
+    @Expose
+    private String maxStockLevel;
+    @SerializedName("stock_level")
+    @Expose
+    private String stockLevel;
+    @SerializedName("stock_danger_level")
+    @Expose
+    private String stockDangerLevel;
+
     public String getProductId() {
         return productId;
     }
@@ -82,6 +92,30 @@ public class Product {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+
+    public String getMaxStockLevel() {
+        return maxStockLevel;
+    }
+
+    public void setMaxStockLevel(String maxStockLevel) {
+        this.maxStockLevel = maxStockLevel;
+    }
+
+    public String getStockLevel() {
+        return stockLevel;
+    }
+
+    public void setStockLevel(String stockLevel) {
+        this.stockLevel = stockLevel;
+    }
+
+    public String getStockDangerLevel() {
+        return stockDangerLevel;
+    }
+
+    public void setStockDangerLevel(String stockDangerLevel) {
+        this.stockDangerLevel = stockDangerLevel;
     }
 
 }

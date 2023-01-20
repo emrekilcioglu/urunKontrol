@@ -14,12 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.urunkontrol.MainActivity;
 import com.example.urunkontrol.R;
 import com.example.urunkontrol.ReadQrFragment;
 import com.example.urunkontrol.classes.ApiUtils;
@@ -85,21 +87,6 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
                 name = user.getName();
                 textView.setText(name);
 
-
-                if (savedInstanceState == null) {//Burada başlangıçta gelecek fragmentı tanımladık
-                    Bundle bundle = new Bundle();//Buradan bu fragmenta veri yolluyorum
-                    //oq fragment için veri gönderimi
-                    bundle.putString("job_status",jobStatus);
-                    bundle.putString("user_id",userId);
-                    Log.e("İf çalıştı","İf çalıştı");//kontrol temizlenecektir
-                    // TODO: 15/12/2022 Bu bundlelarda bulunan veriyi qr fragmnetta aktar
-
-                    getSupportFragmentManager().beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.fragmentContainerViewM,ReadQrFragment.class, bundle)
-                            .commit();
-                }
-
             }
 
             @Override
@@ -124,11 +111,18 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
         int id = item.getItemId();
         switch (id){
             case R.id.action_home_page:
+                fragment = new StockTrackFragment();
+                replaceFragment(fragment);
+                drawerLayoutM.closeDrawer(GravityCompat.START);
+                return true;
+
+            case R.id.action_qr:
                 fragment = new ReadQrFragment();
                 Bundle bundleMenu = new Bundle();//Buradan bu fragmenta veri yolluyorum
                 //oq fragment için veri gönderimi
                 bundleMenu.putString("job_status",jobStatus);
                 bundleMenu.putString("user_id",userId);
+                fragment.setArguments(bundleMenu);
                 replaceFragment(fragment);
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
@@ -139,6 +133,7 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
             case R.id.action_list_brand:
+                Log.e("Brand Calıştı","Brand");
                 allBrand();
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
@@ -150,6 +145,17 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
                 allUser();
                 drawerLayoutM.closeDrawer(GravityCompat.START);
                 return true;
+
+            case R.id.action_log_out:
+                SharedPreferences sharedPreferences = getSharedPreferences("AutoLoginSettings", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("user_name");
+                editor.remove("password");
+                editor.commit();
+                startActivity(new Intent(ManagerMainPageActivity.this, MainActivity.class));
+                finish();
+                return true;
+
 
 
 
@@ -204,9 +210,9 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
         });
     }
     public void allBrand(){
+        Log.e("All Brand Çalıştır","Brand2");
         BrandDaoInterface brandDif;
         brandDif = ApiUtils.getBrandDaoInterface();
-
         brandDif.allBrand().enqueue(new Callback<BrandResponse>() {
             @Override
             public void onResponse(Call<BrandResponse> call, Response<BrandResponse> response) {
@@ -216,6 +222,7 @@ public class ManagerMainPageActivity extends AppCompatActivity implements Naviga
                 fragment = new ListFragment(adapter);
                 fragment.setArguments(bundleMenu);
                 bundleMenu.putString("user_id",userId);
+                Log.e("All Brand Çalıştır","Brand");
 
                 replaceFragment(fragment);
 

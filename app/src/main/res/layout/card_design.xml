@@ -8,7 +8,7 @@
     >
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewMovement"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textViewCard"
+                android:id="@+id/textViewCardPro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"

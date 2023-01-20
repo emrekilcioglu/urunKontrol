@@ -7,6 +7,8 @@
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+	mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
@@ -15,7 +17,7 @@
     
     $sqlsorgu = "SELECT * FROM product,category,brand,stock WHERE product.category_id = category.category_id and product.brand_id = brand.brand_id
     and stock.product_id = product.product_id";
-    $result = mysqli_query($baglanti, $sqlsorgu);
+    $result = mysqli_query($baglanti, $sqlsorgu);// Bu yok artık
     
     // result kontrolü yap
     if (mysqli_num_rows($result) > 0) {

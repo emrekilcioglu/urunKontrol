@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.urunkontrol.classes.ApiUtils;
-import com.example.urunkontrol.classes.CRUDResponse;
 import com.example.urunkontrol.classes.User;
 import com.example.urunkontrol.classes.UserDaoInterface;
 import com.example.urunkontrol.classes.UserResponse;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         buttonLogin = findViewById(R.id.buttonLogin);
         editTextName = findViewById(R.id.edtitTextName);
-        editTextPassword = findViewById(R.id.editTextPassword);
+        editTextPassword = findViewById(R.id.editTextPasswordSign);
 
 
 

@@ -21,7 +21,9 @@ import com.example.urunkontrol.classes.Category;
 import com.example.urunkontrol.classes.CategoryAdapter;
 import com.example.urunkontrol.classes.CategoryDaoInterface;
 import com.example.urunkontrol.classes.CategoryResponse;
+import com.example.urunkontrol.classes.Product;
 import com.example.urunkontrol.classes.ProductDaoInterface;
+import com.example.urunkontrol.classes.ProductResponse;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -41,6 +43,8 @@ public class ProductAddActivity extends AppCompatActivity {
     private BrandDaoInterface brandDif;
     private ProductDaoInterface productDif;
     private Button buttonSave;
+    private Intent intentUp;
+    private String userId;
 
 
 
@@ -66,6 +70,14 @@ public class ProductAddActivity extends AppCompatActivity {
         textInEditBrand = findViewById(R.id.textInEditBrand);
         //Button
         buttonSave = findViewById(R.id.buttonSave);
+
+        productDif = ApiUtils.getProductInterface();
+        intentUp = getIntent();
+        int router = intentUp.getIntExtra("router",0);
+        userId = intentUp.getStringExtra("user_id");
+
+
+
         categoryDif = ApiUtils.getCategoryInterface();
         categoryDif.allCategory().enqueue(new Callback<CategoryResponse>() {
             @Override
@@ -96,15 +108,93 @@ public class ProductAddActivity extends AppCompatActivity {
 
             }
         });
-        buttonSave.setOnClickListener(view -> {
-            addProduct();
-            finish();
+        if (router ==1){
+            String qrBarcode = intentUp.getStringExtra("qr_or_barcode");
+            productDif.qrControl(qrBarcode).enqueue(new Callback<ProductResponse>() {
+                @Override
+                public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                    String productName,stock,stockDangerLevel,unitWeight,price;
+                    Product product = response.body().getProduct().get(0);
+                    productName = product.getProductName();
+                    //Brand brand = product.getBrand();
+                    //Category category = product.getCategory();
+                    stock = product.getMaxStockLevel();
+                    stockDangerLevel = product.getStockDangerLevel();
+                    unitWeight = product.getUnitWeight();
+                    price = product.getPrice();
 
-        });
+                    textInEditProductNam.setText(productName);
+
+                    textInEditStock.setText(stock);
+                    textInEditStockDanger.setText(stockDangerLevel);
+                    textInEditWeight.setText(unitWeight);
+                    textInEditPrice.setText(price);
+
+                }
+
+                @Override
+                public void onFailure(Call<ProductResponse> call, Throwable t) {
+
+                }
+            });
+            buttonSave.setOnClickListener(view -> {
+                updateProduct();
+                Intent intent = new Intent(ProductAddActivity.this,ManagerMainPageActivity.class);
+                intent.putExtra("user_id",userId);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(intent);
+
+            });
+        }
+        else if (router ==2){
+            String productId = intentUp.getStringExtra("product_id");
+            productDif.getProduct(productId).enqueue(new Callback<ProductResponse>() {
+                @Override
+                public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
+                    String productName,stock,stockDangerLevel,unitWeight,price;
+                    Product product = response.body().getProduct().get(0);
+                    productName = product.getProductName();
+                    //Brand brand = product.getBrand();
+                    //Category category = product.getCategory();
+                    stock = product.getMaxStockLevel();
+                    stockDangerLevel = product.getStockDangerLevel();
+                    unitWeight = product.getUnitWeight();
+                    price = product.getPrice();
+
+                    textInEditProductNam.setText(productName);
+
+                    textInEditStock.setText(stock);
+                    textInEditStockDanger.setText(stockDangerLevel);
+                    textInEditWeight.setText(unitWeight);
+                    textInEditPrice.setText(price);
+
+                }
+
+                @Override
+                public void onFailure(Call<ProductResponse> call, Throwable t) {
+
+                }
+            });
+            buttonSave.setOnClickListener(view -> {
+                updateProduct();
+                finish();
+
+
+
+            });
+        }
+        else {
+            buttonSave.setOnClickListener(view -> {
+                addProduct();
+                finish();
+
+            });
+        }
+
     }
 
     private void addProduct(){
-        productDif = ApiUtils.getProductInterface();
         String barcodeQr,productName,brandName,categoryName,price,unitWeight,maxStockLevel,stockDangerLevel;
         Intent readQrIntent = getIntent();
         barcodeQr = readQrIntent.getStringExtra("barcode_or_qr");
@@ -128,6 +218,35 @@ public class ProductAddActivity extends AppCompatActivity {
 
                     }
                 });
+
+    }
+
+    private void updateProduct(){
+        String barcodeQr,productName,brandName,categoryName,price,unitWeight,maxStockLevel,stockDangerLevel;
+        Intent readQrIntent = getIntent();
+        barcodeQr = readQrIntent.getStringExtra("qr_or_barcode");
+        productName = textInEditProductNam.getText().toString();
+        brandName = textInEditBrand.getText().toString();
+        categoryName = textInEditCategory.getText().toString();
+        unitWeight = textInEditWeight.getText().toString();
+        price = textInEditPrice.getText().toString();
+        maxStockLevel = textInEditStock.getText().toString();
+        stockDangerLevel = textInEditStockDanger.getText().toString();
+        Log.e("deney",barcodeQr+ "  "+ " "+price+" "+productName+" "+categoryName+"  "+brandName );
+        productDif.updateProduct(barcodeQr,productName,brandName,categoryName,price,unitWeight,maxStockLevel,stockDangerLevel)
+                .enqueue(new Callback<CRUDResponse>() {
+                    @Override
+                    public void onResponse(Call<CRUDResponse> call, Response<CRUDResponse> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<CRUDResponse> call, Throwable t) {
+
+                    }
+                });
+
+
 
     }
 }

@@ -31,8 +31,8 @@ public class RvAdapterTransHistory extends RecyclerView.Adapter<RvAdapterTransHi
 
         public CardViewObjectHolder(@NonNull View itemView) {
             super(itemView);
-            textViewCard = itemView.findViewById(R.id.textViewCard);
-            cardView = itemView.findViewById(R.id.cardView);
+            textViewCard = itemView.findViewById(R.id.textViewCardPro);
+            cardView = itemView.findViewById(R.id.cardViewMovement);
             imageViewMore = itemView.findViewById(R.id.imageViewMore);
         }
     }

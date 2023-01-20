@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ProductMovementDaoInterfaca {
-    @GET("urunKontrolApi/all_product_movement.php")
+    @GET("urunKontrol/all_product_movement.php")
     Call<ProductMovementResponse> allProductMovement();
 
     @POST("urunKontrol/insert_product_movement.php")

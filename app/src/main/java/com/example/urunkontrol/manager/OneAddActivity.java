@@ -48,7 +48,7 @@ public class OneAddActivity extends AppCompatActivity {
             }
             else {
                 addBrand(value);
-            };
+            }
 
             Intent intentMain = new Intent(this,ManagerMainPageActivity.class);
             //intentMain.putExtra();

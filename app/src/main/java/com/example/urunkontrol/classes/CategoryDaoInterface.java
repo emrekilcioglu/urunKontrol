@@ -16,4 +16,16 @@ public interface CategoryDaoInterface {
     Call<CRUDResponse> insertCategory(@Field("category_name") String categoryName);//Bize kisilerCevap türünden veri döneceğini belirttik
     //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
 
+    @POST("urunKontrol/delete_category.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<CRUDResponse> deleteCategory(@Field("category_id") String categoryId);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
+
+    @POST("urunKontrol/update_category.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<CRUDResponse> updateCategory(@Field("category_id") String categoryId,@Field("category_name") String categoryName);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
+
 }

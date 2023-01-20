@@ -24,4 +24,25 @@ public interface UserDaoInterface {
     @FormUrlEncoded
     Call<UserResponse> searchUser(@Field("user_id") String userId);
 
+    @POST("urunKontrol/get_user.php")
+    @FormUrlEncoded
+    Call<UserResponse> getUser(@Field("user_id") String userId);
+
+    @POST("urunKontrol/delete_user.php")
+    @FormUrlEncoded
+    Call<UserResponse> deleteUser(@Field("user_id") String userId);
+
+    @POST("urunKontrol/insert_user.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<UserResponse> insertUser(@Field("user_name") String userName,@Field("password") String password,@Field("name") String name,@Field("tc_no") String tcNo,@Field("job_status") String job_status);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
+
+    @POST("urunKontrol/update_user.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<CRUDResponse> updateUser(@Field("user_name") String userName,@Field("password") String password,@Field("name") String name,@Field("tc_no") String tcNo,@Field("job_status") String job_status,@Field("user_id") String userId);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
+
+
 }

@@ -4,6 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface StockDaoInterface {
-    @GET("urunKontrolApi/all_stock")
+    @GET("urunKontrol/general_stock_control.php")
     Call<StockResponse> allStock();
 }

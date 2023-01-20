@@ -7,14 +7,16 @@ require_once __DIR__ . '/db_config.php';
 
 // Bağlantı oluşturuluyor.
 $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+mysqli_set_charset($baglanti,"utf8mb4");
+
     
 // Bağlanti kontrolü yapılır.
 if (!$baglanti) {
     die("Hatalı bağlantı : " . mysqli_connect_error());
 }
     
-$sqlsorgu = "SELECT * FROM brand";
-$result = mysqli_query($baglanti, $sqlsorgu);
+$sqlsorgu = "CALL sp_all_brand()";//Proced
+$result = mysqli_query($baglanti,$sqlsorgu);
 
 // result kontrolü yap
 if (mysqli_num_rows($result) > 0) {
@@ -27,6 +29,7 @@ if (mysqli_num_rows($result) > 0) {
         
         $brand["brand_id"] = $row["brand_id"];
         $brand["brand_name"] = $row["brand_name"];
+        
         
         
         // push single product into final response array

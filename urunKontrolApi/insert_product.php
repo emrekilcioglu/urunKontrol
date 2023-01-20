@@ -2,13 +2,20 @@
 
 $response = array();
 
-if (isset($_POST['product_name']) && isset($_POST['brand_id'])&& isset($_POST['category_id'])
-&& isset($_POST['price'])&& isset($_POST['unit_weight'])) {
+if (isset($_POST['product_name']) && isset($_POST['brand_name'])&& isset($_POST['category_name'])
+&& isset($_POST['price'])&& isset($_POST['unit_weight'])&& isset($_POST['barcode_or_qr'])&& isset($_POST['max_stock_level'])
+&& isset($_POST['stock_danger_level'])) {
     $product_name = $_POST['product_name'];
-    $brand_id = $_POST['brand_id'];
-    $category_id = $_POST['category_id'];
+    $brand_name = $_POST['brand_name'];
+    $category_name = $_POST['category_name'];
     $price = $_POST['price'];
     $unit_weight = $_POST['unit_weight'];
+    $barcode_or_qr = $_POST['barcode_or_qr'];
+    $max_stock_level = $_POST['max_stock_level'];
+    $stock_danger_level = $_POST['stock_danger_level'];
+
+    $category_id;
+    $brand_id;
 
 
 
@@ -18,14 +25,19 @@ if (isset($_POST['product_name']) && isset($_POST['brand_id'])&& isset($_POST['c
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+    mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "INSERT INTO product (brand_id,product_name,category_id,price,unit_weight) 
-    VALUES ('$brand_id','$product_name','$category_id','$price','$unit_weight')";
+
+    
+
+    
+    $sqlsorgu = "CALL sp_insert_product('$barcode_or_qr','$product_name','$category_name','$brand_name','$price','$unit_weight','$max_stock_level','$stock_danger_level')";
 
     
     if (mysqli_query($baglanti, $sqlsorgu)) {

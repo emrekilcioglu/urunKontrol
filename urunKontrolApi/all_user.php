@@ -7,13 +7,15 @@
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+	mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "SELECT * FROM user";
+    $sqlsorgu = "CALL AllUser()";//Proced
     $result = mysqli_query($baglanti, $sqlsorgu);
     
     // result kontrolü yap
@@ -29,7 +31,9 @@
             $user["user_name"] = $row["user_name"];
             $user["password"] = $row["password"];
             $user["login_status"] = $row["login_status"];
-            $user["tc_no"] = $row["tc_no"];           
+            $user["tc_no"] = $row["tc_no"];
+            $user["job_status"] = $row["job_status"];
+			
 
             // push single product into final response array
             array_push($response["user"], $user);

@@ -1,58 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".manager.StockTrackFragment">
 
-
-
-
-    <ProgressBar
-        android:id="@+id/progressBarStock"
-        style="?android:attr/progressBarStyle"
-        android:indeterminateOnly="false"
-        android:progressDrawable="@drawable/circle"
-        android:progress="60"
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintWidth_percent=".5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-         />
-
-    <TextView
-        android:id="@+id/textViewStockPercent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/progressBarStock"
-        app:layout_constraintEnd_toEndOf="@id/progressBarStock"
-        app:layout_constraintTop_toTopOf="@id/progressBarStock"
-        app:layout_constraintBottom_toBottomOf="@id/progressBarStock"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        tools:text="%60"
-         />
     <View
+        android:id="@+id/stockInfView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent=".3"
-        app:layout_constraintDimensionRatio="1.9"
+        app:layout_constraintWidth_percent=".97"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".07"
 
 
 
 
+        />
+    <ProgressBar
+        android:id="@+id/progressBarStock"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:indeterminateOnly="false"
+        android:progress="60"
+        android:progressDrawable="@drawable/circle"
+        app:layout_constraintDimensionRatio="1:1"
+
+        app:layout_constraintStart_toStartOf="@id/stockInfView"
+        app:layout_constraintTop_toTopOf="@id/stockInfView"
+        app:layout_constraintWidth_percent=".3" />
+
+    <TextView
+        android:id="@+id/textViewStockPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="@id/progressBarStock"
+        app:layout_constraintEnd_toEndOf="@id/progressBarStock"
+        app:layout_constraintStart_toStartOf="@id/progressBarStock"
+        app:layout_constraintTop_toTopOf="@id/progressBarStock"
+        tools:text="%60" />
+
+
+
+
+    <TextView
+        android:id="@+id/textStockStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Genel Stok Seviyesi"
+        app:layout_constraintTop_toTopOf="@id/stockInfView"
+        app:layout_constraintBottom_toBottomOf="@id/stockInfView"
+        app:layout_constraintStart_toStartOf="@id/stockInfView"
+        app:layout_constraintEnd_toEndOf="@id/stockInfView"
+        app:layout_constraintHorizontal_bias=".7"
+         />
+
+    <View
+        android:id="@+id/stockDangerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent=".97"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stockInfView"
+
+        app:layout_constraintVertical_bias=".07"
 
 
         />
+
+    <ImageView
+        android:id="@+id/imageViewDanger"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/danger"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="@id/stockDangerView"
+
+        app:layout_constraintTop_toTopOf="@id/stockDangerView"
+        app:layout_constraintWidth_percent=".3" />
+
+    <TextView
+        android:id="@+id/textViewDangerInf"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="TextView"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@id/stockDangerView"
+
+        app:layout_constraintEnd_toEndOf="@+id/stockDangerView"
+        app:layout_constraintStart_toEndOf="@id/imageViewDanger"
+        app:layout_constraintTop_toTopOf="@id/stockDangerView" />
+
+    <Button
+        android:id="@+id/buttonTransactionHis"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Ürün Hareketlerini Görüntüle"
+        app:icon="@drawable/shipping_icon"
+        app:iconGravity="top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        android:layout_marginBottom="56dp"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

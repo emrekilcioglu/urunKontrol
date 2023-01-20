@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface BrandDaoInterface {
-    @GET("urunKontrol/all_brand.php")
+    @POST("urunKontrol/all_brand.php")
     Call<BrandResponse> allBrand();
 
     @POST("urunKontrol/search_brand.php")
@@ -22,5 +22,16 @@ public interface BrandDaoInterface {
     Call<CRUDResponse> insertBrand(@Field("brand_name") String brandName);//Bize kisilerCevap türünden veri döneceğini belirttik
     //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
 
+    @POST("urunKontrol/update_brand.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<CRUDResponse> updateBrand(@Field("brand_id") String brandId,@Field("brand_name") String brandName);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
+
+    @POST("urunKontrol/delete_brand.php")
+    @FormUrlEncoded
+//Türkçe karakter sıkıntısı olmaması için
+    Call<CRUDResponse> deleteBrand(@Field("brand_id") String brandId);//Bize kisilerCevap türünden veri döneceğini belirttik
+    //Field ile hangi isimde veri göndereceğimizi,oluşturduğumuz string parametre ile de kolayca veriyi parametre olarak göndermemiz sağlandı
 
 }

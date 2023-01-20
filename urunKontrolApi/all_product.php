@@ -7,14 +7,16 @@
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+	mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "SELECT * FROM product,category,brand WHERE product.category_id = category.category_id and product.brand_id = brand.brand_id";
-    $result = mysqli_query($baglanti, $sqlsorgu);
+    $sqlsorgu = "CALL AllProduct()";
+    $result = mysqli_query($baglanti, $sqlsorgu);//Proced
     
     // result kontrolü yap
     if (mysqli_num_rows($result) > 0) {

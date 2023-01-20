@@ -60,17 +60,22 @@ public class ListFragment extends Fragment {
         recyclerViewPool.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewPool.setAdapter(adapter);
         floatButtonPool.setOnClickListener(view -> {
-            ad = new AlertDialog.Builder(getContext());
-            View design = getLayoutInflater().inflate(R.layout.allert_design,null);
 
             if (adapter instanceof RvAdapterCategory){
+                ad = new AlertDialog.Builder(getContext());
+                View design = getLayoutInflater().inflate(R.layout.allert_design,null);
                 categoryUpdate(design);
 
             }
             else if (adapter instanceof RvAdapterBrand){
+                ad = new AlertDialog.Builder(getContext());
+                View design = getLayoutInflater().inflate(R.layout.allert_design,null);
                 brandUpdate(design);
 
 
+            }
+            else if (adapter instanceof RvAdapterUser){
+                startActivity(new Intent(getContext(),AddUserActivity.class));
             }
         });
 
@@ -201,4 +206,17 @@ public class ListFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("Resume List","Resume");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("Stop List","Stop");
+
+
+    }
 }

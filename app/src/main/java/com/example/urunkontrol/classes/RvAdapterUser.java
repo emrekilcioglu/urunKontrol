@@ -1,10 +1,13 @@
 package com.example.urunkontrol.classes;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,8 +15,13 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.urunkontrol.R;
+import com.example.urunkontrol.manager.AddUserActivity;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RvAdapterUser extends RecyclerView.Adapter<RvAdapterUser.CardViewObjectHolder>{
     private Context mContext;// Contexte ihtiyacımız olacka bşatan tanımladık
@@ -31,8 +39,8 @@ public class RvAdapterUser extends RecyclerView.Adapter<RvAdapterUser.CardViewOb
 
         public CardViewObjectHolder(@NonNull View itemView) {
             super(itemView);
-            textViewCard = itemView.findViewById(R.id.textViewCard);
-            cardView = itemView.findViewById(R.id.cardView);
+            textViewCard = itemView.findViewById(R.id.textViewCardPro);
+            cardView = itemView.findViewById(R.id.cardViewMovement);
             imageViewMore = itemView.findViewById(R.id.imageViewMore);
         }
     }
@@ -54,6 +62,50 @@ public class RvAdapterUser extends RecyclerView.Adapter<RvAdapterUser.CardViewOb
     public void onBindViewHolder(@NonNull CardViewObjectHolder holder, int position) {//item count kadar çalışır
         User user  = userList.get(position);
         holder.textViewCard.setText(user.getName());
+        holder.imageViewMore.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(mContext, view);
+            popupMenu.getMenuInflater().inflate(R.menu.del_edit_menu, popupMenu.getMenu());
+            popupMenu.show();
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_edit:
+                        Intent intentEdit = new Intent(mContext, AddUserActivity.class);
+                        intentEdit.putExtra("router", 1);
+                        intentEdit.putExtra("user_id", user.getUserId());
+
+                        mContext.startActivity(intentEdit);
+                        return true;
+                    case R.id.action_delete:
+                        AlertDialog.Builder ad;
+                        ad =new AlertDialog.Builder(mContext);
+                        ad.setTitle("Kullanıcı Sil");
+                        ad.setMessage(user.getName()+" kullanıcısı silinsin mi ?");//Veri burada
+                        ad.setPositiveButton("Evet",(dialogInterface, i) -> {
+                            UserDaoInterface userDif = ApiUtils.getUserInterface();
+                            userDif.deleteUser(user.getUserId()).enqueue(new Callback<UserResponse>() {
+                                @Override
+                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+
+                                }
+
+                                @Override
+                                public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                                }
+                            });
+
+                        });
+                        ad.setNegativeButton("Hayır",(dialogInterface, i) -> {
+                            dialogInterface.dismiss();
+                        }).show();
+
+                        return true;
+                    default:
+                        return false;
+
+                }
+            });
+        });
 
 
     }

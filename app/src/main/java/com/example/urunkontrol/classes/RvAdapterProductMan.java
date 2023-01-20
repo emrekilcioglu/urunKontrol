@@ -15,25 +15,24 @@ import com.example.urunkontrol.R;
 
 import java.util.List;
 
-public class RvAdapterStock extends RecyclerView.Adapter<RvAdapterStock.CardViewObjectHolder>{
+public class RvAdapterProductMan extends RecyclerView.Adapter<RvAdapterProductMan.CardViewObjectHolder>{
     private Context mContext;// Contexte ihtiyacımız olacka bşatan tanımladık
-    private List<Stock> stockList;//zaten gelecek veri
+    private List<Product> productList;//zaten gelecek veri
 
-    public RvAdapterStock(Context mContext, List<Stock> stockList) {
+    public RvAdapterProductMan(Context mContext, List<Product> productList) {
         this.mContext = mContext;
-        this.stockList = stockList ;
+        this.productList = productList ;
     }
     public class CardViewObjectHolder extends RecyclerView.ViewHolder{
         //Bu sınıf görsel elemanarla ilgilidir
-        public TextView textViewCard;
-        public CardView cardView;
-        public ImageView imageViewMore;
+        public TextView textViewCardPro,textViewStock;
+        public ImageView imageViewProMan;
 
         public CardViewObjectHolder(@NonNull View itemView) {
             super(itemView);
-            textViewCard = itemView.findViewById(R.id.textViewCard);
-            cardView = itemView.findViewById(R.id.cardView);
-            imageViewMore = itemView.findViewById(R.id.imageViewMore);
+            textViewCardPro = itemView.findViewById(R.id.textViewCardPro);
+            imageViewProMan = itemView.findViewById(R.id.imageViewProMan);
+            textViewStock = itemView.findViewById(R.id.textViewStock);
         }
     }
 
@@ -44,7 +43,7 @@ public class RvAdapterStock extends RecyclerView.Adapter<RvAdapterStock.CardView
         Bu metodda görsel elemnanımıza construcktor yolu ile tasarımı gönderiyoruz
          */
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_design,parent,false);
+                .inflate(R.layout.card_design_pro_man,parent,false);
 
         return new CardViewObjectHolder(view);
         // TODO: 13/11/2022 adapterı oluşturmada kaldık tıklanma özelliklerini yap 
@@ -52,15 +51,18 @@ public class RvAdapterStock extends RecyclerView.Adapter<RvAdapterStock.CardView
 
     @Override
     public void onBindViewHolder(@NonNull CardViewObjectHolder holder, int position) {//item count kadar çalışır
-        Stock stock  = stockList.get(position);
-        holder.textViewCard.setText(stock.getProduct().getProductName());
-
+        Product product  = productList.get(position);
+        holder.textViewCardPro.setText(product.getProductName());
+        holder.textViewStock.setText(product.getStockLevel()+"/"+product.getMaxStockLevel());
+        if (Integer.parseInt(product.getStockLevel()) == 0){
+            holder.imageViewProMan.setImageResource(R.drawable.danger);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return stockList.size();
+        return productList.size();
     }
 
 

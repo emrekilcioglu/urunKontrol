@@ -5,6 +5,9 @@
         android:id="@+id/action_home_page"
         android:title="Ana Sayfa" />
     <item
+        android:id="@+id/action_qr"
+        android:title="QrBarkod İşlemleri" />
+    <item
         android:id="@+id/action_list_product"
         android:title="Ürünleri Listele" />
     <item
@@ -17,6 +20,7 @@
         android:id="@+id/action_list_user"
         android:title="Kullanıcıları Listele" />
     <item
-        android:id="@+id/action_list_stock"
-        android:title="Stok Görüntüle" />
+        android:id="@+id/action_log_out"
+        android:icon="@drawable/exit"
+        android:title="Çıkış Yap" />
 </menu>

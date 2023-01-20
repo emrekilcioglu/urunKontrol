@@ -38,8 +38,8 @@ public class ReadQrFragment extends Fragment {
     private Button buttonReadQr;
     private ProductDaoInterface productDif;
     private Intent intentChoice;
-    private String jobStatus;
-    private String userId;
+    private String jobStatus,userId,productName;
+
     public ReadQrFragment(){
         Log.e("Constr","COnst Çalıştır");
     }
@@ -52,6 +52,7 @@ public class ReadQrFragment extends Fragment {
         //Activity den aldığımız veriler
         jobStatus = getArguments().getString("job_status",null);
         userId = getArguments().getString("user_id",null);
+        Log.e("Userid qr",userId);
 
         buttonReadQr.setOnClickListener(view -> {
             scanCode();
@@ -75,13 +76,17 @@ public class ReadQrFragment extends Fragment {
         String qrBarcode = result.getContents();//Qr verimiz burada
 
         if (qrBarcode != null){
+            Log.e("Barcode",qrBarcode);
             productDif = ApiUtils.getProductInterface();
             productDif.qrControl(qrBarcode).enqueue(new Callback<ProductResponse>() {
                 @Override
                 public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                     Log.e("Retrofit","Retro Çlıştır");
                     if (response.body().getSuccess() == 1){
-                        intentRouter(jobStatus,qrBarcode,userId);
+                        productName = response.body().getProduct().get(0).getProductName();
+                        Log.e("Urun İsmi",productName);
+                        Log.e("Job id",jobStatus);
+                        intentRouter(jobStatus,qrBarcode);
                     }
                     else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());//Dialog nesnemiz
@@ -105,6 +110,7 @@ public class ReadQrFragment extends Fragment {
                                         // TODO: 21/12/2022 Buraya ürün eklmeme sayfasına geçiş ekle
                                         Intent intentProductAdd = new Intent(getContext(), ProductAddActivity.class);
                                         intentProductAdd.putExtra("barcode_or_qr",qrBarcode);
+                                        intentProductAdd.putExtra("user_id",userId);
                                         startActivity(intentProductAdd);
                                         dialogInterface.dismiss();
                                     }
@@ -145,24 +151,27 @@ public class ReadQrFragment extends Fragment {
         }
     });//Burada da gelen veriyle alakalı işlemler yapıyoruz
 
-    private void intentRouter(String jobStatus,String qrBarcode,String userId){
+    private void intentRouter(String jobStatus,String qrBarcode){
         Intent intent;
         switch (jobStatus){
             case "0":
                 intent = new Intent(getContext(),EmployeeChoiceActivity.class);
                 intent.putExtra("user_id",userId);
                 intent.putExtra("qr_barcode",qrBarcode);
+                intent.putExtra("product_name",productName);
                 startActivity(intent);
                 break;
             case "1":
                 intent = new Intent(getContext(),ManagerChoiceActivity.class);
                 intent.putExtra("user_id",userId);
                 intent.putExtra("qr_barcode",qrBarcode);
+                intent.putExtra("product_name",productName);
                 startActivity(intent);
 
                 break;
 
         }
+
 
 
 

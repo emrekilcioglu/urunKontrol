@@ -68,8 +68,9 @@ public class ProductInputActivity extends AppCompatActivity {
             insertMove(productId,userId,piece);
             Intent mainIntet = new Intent(ProductInputActivity.this, EmployeeMainPageActivity.class);
             mainIntet.putExtra("user_id",userId);
+            mainIntet.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntet);
-            finish();
+
 
         });
 

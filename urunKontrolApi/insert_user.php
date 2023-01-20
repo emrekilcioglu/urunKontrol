@@ -3,12 +3,19 @@
 $response = array();
 
 if (isset($_POST['name']) && isset($_POST['user_name'])&& isset($_POST['password'])
-&& isset($_POST['login_status'])&& isset($_POST['tc_no'])) {
+&& isset($_POST['job_status'])&& isset($_POST['tc_no'])) {
     $name = $_POST['name'];
     $user_name = $_POST['user_name'];
     $password = $_POST['password'];
-    $login_status = $_POST['login_status'];
+    $job_status = $_POST['job_status'];
     $tc_no = $_POST['tc_no'];
+
+    if($job_status == "İşçi"){
+        $job_status = 0;
+        
+    }elseif($job_status == "Yönetici"){
+        $job_status = 1;
+    }
 
 
 
@@ -18,14 +25,15 @@ if (isset($_POST['name']) && isset($_POST['user_name'])&& isset($_POST['password
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+	mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "INSERT INTO user (user_name,name,password,login_status,tc_no) 
-    VALUES ('$user_name','$name','$password','$login_status','$tc_no')";
+    $sqlsorgu = "CALL insertUser('$name','$user_name','$password','$tc_no','$job_status')";
 
     
     if (mysqli_query($baglanti, $sqlsorgu)) {

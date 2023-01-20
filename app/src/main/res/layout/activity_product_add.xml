@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Stok "
-            android:inputType="number" />
+            android:inputType="numberSigned" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -61,8 +61,8 @@
             android:id="@+id/textInEditBrand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Marka"
-            android:inputType="none" />
+            android:inputType="none"
+            android:hint="Marka" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -131,7 +131,9 @@
             android:id="@+id/textInEditWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Birim Ağırlığı" />
+            android:hint="Birim Ağırlığı"
+            android:inputType="numberSigned"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

@@ -7,16 +7,16 @@
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+	mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "SELECT * FROM product,category,brand,product_movement,user WHERE 
-    product.category_id = category.category_id and product.brand_id = brand.brand_id and 
-    product_movement.product_id = product.product_id and product_movement.user_id = user.user_id ";
-    $result = mysqli_query($baglanti, $sqlsorgu);
+    $sqlsorgu = "CALL sp_all_product_move()";
+    $result = mysqli_query($baglanti, $sqlsorgu);//Proced
     
     // result kontrolü yap
     if (mysqli_num_rows($result) > 0) {
@@ -59,7 +59,12 @@
             $product_movement["product"] = $product;
             $product_movement["user"] = $user;
             $product_movement["date"] = $row["date"];
-            $product_movement["movement_state"] = $row["movement_state"];
+            $product_movement["piece"] = $row["piece"];
+            if ($row["movement_state"]) {
+                $product_movement["movement_state"] = "Giriş";
+                
+            }
+            else $product_movement["movement_state"] = "Çıkış"; 
             
             // push single product into final response array
             array_push($response["product_movement"], $product_movement);

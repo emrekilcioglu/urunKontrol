@@ -11,13 +11,15 @@ if (isset($_POST['brand_name'])) {
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+    mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "INSERT INTO brand (brand_name) VALUES ('$brand_name')";
+    $sqlsorgu = "INSERT INTO brand (brand_name) VALUES ('$brand_name')";//Proced
 
     
     if (mysqli_query($baglanti, $sqlsorgu)) {

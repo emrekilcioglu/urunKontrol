@@ -11,13 +11,15 @@ if (isset($_POST['category_name'])) {
     
     // Bağlantı oluşturuluyor.
     $baglanti = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE);
+    mysqli_set_charset($baglanti,"utf8mb4");
+
     
     // Bağlanti kontrolü yapılır.
     if (!$baglanti) {
         die("Hatalı bağlantı : " . mysqli_connect_error());
     }
     
-    $sqlsorgu = "INSERT INTO category (category_name) VALUES ('$category_name')";
+    $sqlsorgu = "CALL sp_insert_category('$category_name')";
 
     
     if (mysqli_query($baglanti, $sqlsorgu)) {
